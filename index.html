@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="foundation.min.css" type="text/css" media="all">
+</head>
+<body>
+  <h2>Stuff to do</h2>
+  <div id="todos" data-bind="foreach: todos">
+    <div class="panel">
+      <div class="edit-box" data-bind="if: editing">
+        <form data-bind="submit: done">
+          <input type="text" data-bind="value: todoText, hasFocus: true, event: {blur: done}">
+        </form>
+      </div>
+      <div class="show-box" data-bind="ifnot: editing, click: edit">
+        <a href="#" data-bind="click: $parent.remove, clickBubble: false">(X)</a>
+        <span data-bind="text: todoText"></span>
+      </div>
+    </div>
+  </div>
+  <div id="actions">
+    <button data-bind="click: save, visible: todos().length">Save</button>
+    <button data-bind="click: clear, visible: todos().length">Clear</button>
+    <button data-bind="click: add">Add</button>
+  </div>
+  <script type="text/javascript" src="http://knockoutjs.com/downloads/knockout-3.0.0.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
