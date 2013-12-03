@@ -15,7 +15,7 @@ function LocalStorageVault(key) {
 
 function Todo(text) {
   this.todoText = ko.observable(text);
-  this.editing = ko.observable(!text.length);
+  this.editing = ko.observable(text.length == 0);
   this.edit = function () {
     this.editing(true);
   }
@@ -27,18 +27,21 @@ function Todo(text) {
 function TodoList(storage) {
   var _this = this;
   this.todos = ko.observableArray(storage.read());
+  this.hasTodos = ko.computed(function () {
+    return _this.todos().length > 0;
+  })
   this.save = function () {
     storage.write(this.todos());
-  };
+  }
   this.clear = function () {
     this.todos.removeAll();
-  };
+  }
   this.add = function () {
     this.todos.push(new Todo(""));
-  };
+  }
   this.remove = function (todoToRemove) {
     _this.todos.remove(todoToRemove);
-  };
+  }
 }
 var viewModel = new TodoList(new LocalStorageVault('mytodos'));
 ko.applyBindings(viewModel);
